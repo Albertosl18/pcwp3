@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="ejemplo3.css">
+    <script src="ej3.js"></script>
+</head>
+<body>
+    <h1>Ejemplo de temporizador:</h1>
+    <section>
+        <h2>Hora actual:</h2>
+        <output id="reloj">00:00:00</output>
+        <footer>
+            <button onclick="empezarST();">Empezar ST</button>
+            <button onclick="pararST();">Parar ST</button><br>
+            <button onclick="empezarSI();">Empezar SI</button>
+            <button onclick="pararSI();">Parar SI</button><br>
+            <button onclick="empezarRAF();">Empezar RAF</button>
+            <button onclick="pararRAF();">Parar RAF</button>
+        </footer>
+    </section>
+    <h1>Ejemplo de Canvas</h1>
+    <section>
+        <h2>Canvas</h2>
+        <canvas id="cv01"></canvas>
+        <footer>
+            <button onclick="prueba01();">Prueba 01</button>
+            <button onclick="prueba02();">Prueba 02</button>
+            <button onclick="prueba03();">Prueba 03</button>
+            <button onclick="prueba04();">Prueba 04</button>
+            <button onclick="prueba05();">Prueba 05</button>
+            <button onclick="prueba06();">Prueba 06</button>
+        </footer>
+    </section>
+    <script>
+        prepararCanvas();
+    </script>
+    <h1>Ejemplo de Canvas 2</h1>
+    <section>
+        <h2>Canvas 2</h2>
+        <canvas id="cv02"></canvas>
+        <footer>
+            <button onclick="dibujarRectangulo();">Rectangulo</button>
+            <button onclick="dibujarCirculo();">Circulo</button>
+            <button onclick="dibujarRecta();">Recta</button>
+            <button onclick="dibujarRectas();">Rectas</button>
+            <button onclick="dibujarSombra();">Sombra</button>
+            <button onclick="dibujarTexto();">Texto</button>
+            <button onclick="dibujarClosepath();">Closepath</button>
+            <button onclick="limpiar();">Limpiar</button><br>
+            <button onclick="escalar();">Escalar</button>
+            <button onclick="rotar();">Rotar</button>
+        </footer>
+    </section>
+
+    <script>
+        prepararCanvas2();
+    </script>
+    <h1>Ejemplo de Canvas 3</h1>
+    <section>
+        <h2>Canvas 3 con imagen</h2>
+        <canvas id="cv03"></canvas>
+        <footer>
+            <button onclick="cargarImagen();">cargar imagen</button>
+
+        </footer>
+    </section>
+
+    <h1>Ejemplo de Canvas 4</h1>
+    <section>
+        <h2>Canvas 4 con imagen, copiar imagen canvas 3</h2>
+        <canvas id="cv04"></canvas>
+        <footer>
+            <button onclick="cargarImagen2();">cargar imagen 2</button>
+            <button onclick="pintarTrozo();">Pintar Trozo</button>
+            <button onclick="copiarImagen();">copiar imagen</button>
+            <button onclick="copiarTrozo();">copiar trozo</button>
+        </footer>
+    </section>
+
+    <!--<img id="img01" src="imagenes/img4.jpg" alt="">-->
+
+    <script>
+        prepararCanvas3();
+        prepararCanvas4();
+    </script>
+
+    <h1>Ejemplo de Canvas 5</h1>
+    <section>
+        <h2>Canvas 5 con imagen</h2>
+        <canvas id="cv05"></canvas>
+        <footer>
+            <button onclick="cargarImagen3();">cargar imagen</button>
+
+        </footer>
+    </section>
+    <script>
+        prepararCanvas5();
+    </script>
+
+    <h1>Ejemplo de Canvas 6</h1>
+    <section>
+        <h2>Canvas 6</h2>
+        <canvas id="cv06"></canvas>
+        <footer>
+            <button onclick="copiarImagen2();">copiar imagen</button>
+            <button onclick="divisiones();">divisiones</button>
+            <button onclick="descomponer('r');">rojo</button>
+            <button onclick="descomponer('g');">verde</button>
+            <button onclick="descomponer('b');">azul</button>
+        </footer>
+    </section>
+    <script>
+        prepararCanvas6();
+    </script>
+</body>
+</html>
