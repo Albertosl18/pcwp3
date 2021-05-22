@@ -590,3 +590,70 @@ function descomponer(color){
 
 
 }
+
+//======================================================================
+
+function lanzarVideo() {
+    let video= document.querySelector('#v2');
+    v2.play();
+    console.log('vídeo en marcha');
+}
+
+function pausarVideo() {
+    let video = document.querySelector('#v2');
+    v2.pause();
+    console.log(video.curretTime);
+}
+
+//========================================================================
+function prepararElms() {
+    document.querySelectorAll('canvas,video').forEach(function(e) {
+       e.width = 480;
+       e.height = 360;
+    });
+}
+
+function pintarVideo(video){//pintar video, sirve para imagenes y canvas
+    if(video.ended)
+        return;
+
+    let cv = document.querySelector('#cv1'),
+        ctx = cv.getContext('2d');
+
+    ctx.drawImage(video,0,0,cv.width,cv.height);
+    ctx.beginPath();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 32px sans-serif';
+    ctx.textBaseline= 'top';
+    ctx.fillText('TROLEADO',10,10);//añadimos texto al video
+    ctx.beginPath();
+    ctx.font = '16px sans-serif';
+    ctx.fillText('subeme la nota profe', 10, 46);
+
+    requestAnimationFrame(function() {//esto se ejecuta 60 veces por segundo hasta que lo pare o recargue la pagina
+        pintarVideo(video);
+    });
+
+}
+
+function mostrarVideo() {
+    let video = document.querySelector('#v01');
+
+    video.onplay = function(){//cuando el video empiaza a play llamamos a pintar video
+        pintarVideo(video);
+    };
+
+    video.play();
+}
+
+function mostrarVideo2() {//con esta forma no me hace falta que el otro video se reproduzca
+    let video= document.createElement('video');
+
+    video.src = 'videos/BAILE_DEL_TROLEO.mp4';
+
+    video.onplay = function () {//cuando el video empiaza a play llamamos a pintar video
+        pintarVideo(video);
+    };
+
+    video.play();
+}

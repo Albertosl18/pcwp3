@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+    <circle class="circuloRojo" cx="16" cy="16" r="14" fill="#a00" stroke="#00a" stroke-width="2px" />
+</svg>

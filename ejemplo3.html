@@ -115,5 +115,57 @@
     <script>
         prepararCanvas6();
     </script>
+
+    <h1>Ejemplo de audio</h1>
+    <!--<audio src="audio/SWAG.mp3" controls></audio>Controls para que aparezcan los controles y poder reproducir el audio-->
+    <audio controls>
+        <source src="audio/SWAG.mp3" type="audio/wav"><!--Otra forma de hacerlo, pero se queda solo con el primero que cargue el navegador-->
+        <source src="audio/SWAG.mp3" type="audio/mp3">
+    </audio>
+    <section>
+        <h2>VIdeo</h2>
+        <!--<video src="videos/BAILE_DEL_TROLEO.mp4" width="480" height="360" controls poster="imagenes/img4.jpg"></video>-->
+        <video controls>
+            <source src="videos/BAILE_DEL_TROLEO.mp4" type="video/mp4" width="480" height="360">
+            <source src="videos/BAILE_DEL_TROLEO.mp4" type="video/webm" width="480" height="360">
+            <source src="videos/BAILE_DEL_TROLEO.mp4" type="video/ogg" width="480" height="360">
+            <track src="videos/BAILE_DEL_TROLEO.mp4" width="480" height="360" kind="descriptions" srclang="es" label="Español">
+            <track src="videos/BAILE_DEL_TROLEO.mp4" width="480" height="360" kind="descriptions" srclang="en" label="English"><!--Para poner descripcion o subtitulos al video hace falta crear un fichero ver clase del 11 min 32-->
+            <!--aqui src deberia haber ouesto un documento de subtitulos-->
+        </video>
+    </section>
+    <section>
+        <h2>Vídeo 2</h2>
+        <video src="videos/BAILE_DEL_TROLEO.mp4" id="v2" width="480" height="360"></video>
+        <footer>
+            <button onclick="lanzarVideo();">Play</button>
+            <button onclick="pausarVideo();">Pausar</button>
+        </footer>
+    </section>
+    <h1>Ejemplo 2 de video</h1>
+    <section>
+        <h2>Vídeo</h2>
+        <video src="videos/BAILE_DEL_TROLEO.mp4" id="v01"></video>
+    </section>
+    <section>
+        <h2>Canvas</h2>
+        <canvas id="cv1"></canvas>
+        <footer>
+            <button onclick="mostrarVideo();">mostrarVideo</button>
+            <button onclick="mostrarVideo2();">mostrarVideo2</button>
+        </footer>
+    </section>
+    <script>
+        prepararElms();
+    </script>
+    <h1>Ejemplo de SVG</h1>
+    <section>
+        <h2>SVG</h2>
+        <svg xlmns="http://www.w3.org/2000/svg" width="480" height="360">
+            <circle class="fondoRojo bordeAzul" cx="120" cy="150" r="50"/>//cx y cy para poner la posicion
+            <circle cx="200" cy="220" r=50 fill="#98F2FFFF" stroke="#FF0000FF" stroke-width="4px" />
+        </svg>
+    </section>
+    <img src="circulorojo.svg" alt="Circulo rojo">
 </body>
 </html>

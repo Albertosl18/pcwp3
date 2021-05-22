@@ -9,3 +9,14 @@
     }
     */
 
+svg{
+    border:1px solid #000;
+}
+
+.fondoRojo{
+    fill:#a00;
+}
+.bordeAzul{
+    stroke: #00a;
+    stroke-width: 2px;
+}
