@@ -590,70 +590,137 @@ function descomponer(color){
 
 
 }
+function descomponer2(color) {
+    let cv1 = document.querySelector('#cv07'),
+        ctx1 = cv1.getContext('2d'),
 
-//======================================================================
+        imgData,
+    cv2 = cv1.cloneNode(),
+        ctx2 = cv2.getContext('2d');
 
-function lanzarVideo() {
-    let video= document.querySelector('#v2');
-    v2.play();
-    console.log('vídeo en marcha');
+    //imgData = ctx1.getImageData(0, 0, cv1.width, cv1.height);
+
+    ctx2.putImageData(window.imgDataOriginal,0,0);
+    imgData = ctx2.getImageData(0, 0, cv1.width, cv1.height);
+
+
+    imgData.width
+    imgData.height
+    imgData.data
+    let worker=new Worker('worker.js');
+    worker.onmessage=function(evt){
+        let datos=evt.data;
+        ctx1.putImageData(datos.imgData,0,0);
+    }
+    worker.postMessage({'imgData':imgData,'color':color});
+    /*
+    for (let i = 0; i < imgData.height; i++) {
+        for (let j = 0; j < imgData.width; j++) {
+            let pos = (i * imgData.width + j) * 4;
+
+            switch (color) {
+                case 'r'://rojo
+                    //imgData.data[pos ] = 0;//rojo
+                    imgData.data[pos + 1] = 0;//verde
+                    imgData.data[pos + 2] = 0;//azul
+                    //imgData.data[pos + 3] = 0;//alpha
+                    break;
+
+                case 'g'://verde
+                    imgData.data[pos] = 0;//rojo
+                    //imgData.data[pos + 1] = 0;//verde
+                    imgData.data[pos + 2] = 0;//azul
+                    //imgData.data[pos + 3] = 0;//alpha
+                    break;
+
+                case 'b'://azul
+                    imgData.data[pos] = 0;//rojo
+                    imgData.data[pos + 1] = 0;//verde
+                    //imgData.data[pos + 2] = 0;//azul
+                    //imgData.data[pos + 3] = 0;//alpha
+                    break;
+            }
+        }
+
+    }
+*/
+
+    ctx1.putImageData(imgData, 0, 0);
+
+
 }
-
-function pausarVideo() {
-    let video = document.querySelector('#v2');
-    v2.pause();
-    console.log(video.curretTime);
-}
-
-//========================================================================
-function prepararElms() {
-    document.querySelectorAll('canvas,video').forEach(function(e) {
-       e.width = 480;
-       e.height = 360;
+function prepararDnD(){//Se hace casi igual para devolver el texto al origen
+    document.querySelectorAll('#sec01>ul>li').forEach(function (li,idx,v) {
+        li.setAttribute('draggable','true');
+        li.setAttribute('data-idx',idx);
+        li.ondragstart=function(evt){
+            //evt.dataTransfer.setData('text/html',li.outerHTML);
+            evt.dataTransfer.setData('text/html', evt.target.getAttribute('data-idx'));
+            //PARA MOVER IMAGENES
+            //let img=new Image();
+            //img.src='imagenes/img1.jpg';
+            //evt.datatransfer.setDragImage(img,img.width/2,img.height/2);
+        };
     });
-}
-
-function pintarVideo(video){//pintar video, sirve para imagenes y canvas
-    if(video.ended)
-        return;
-
-    let cv = document.querySelector('#cv1'),
-        ctx = cv.getContext('2d');
-
-    ctx.drawImage(video,0,0,cv.width,cv.height);
-    ctx.beginPath();
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 32px sans-serif';
-    ctx.textBaseline= 'top';
-    ctx.fillText('TROLEADO',10,10);//añadimos texto al video
-    ctx.beginPath();
-    ctx.font = '16px sans-serif';
-    ctx.fillText('subeme la nota profe', 10, 46);
-
-    requestAnimationFrame(function() {//esto se ejecuta 60 veces por segundo hasta que lo pare o recargue la pagina
-        pintarVideo(video);
-    });
-
-}
-
-function mostrarVideo() {
-    let video = document.querySelector('#v01');
-
-    video.onplay = function(){//cuando el video empiaza a play llamamos a pintar video
-        pintarVideo(video);
+    //Destino del DnD      alterativa a evt.preventDefault();
+    let sec=document.querySelector('#sec02');
+    sec.ondragover=function(evt){
+        evt.preventDefault();
     };
-
-    video.play();
+    sec.ondrop=function(evt){
+        let info = evt.dataTransfer.getData('text/html'),
+        li=document.querySelector('[data-idx="'+info+'"]');
+        console.log(info);
+       // sec.querySelector('ul').innerHTML+= info;
+        sec.querySelector('ul').appendChild(li);
+    }
 }
-
-function mostrarVideo2() {//con esta forma no me hace falta que el otro video se reproduzca
-    let video= document.createElement('video');
-
-    video.src = 'videos/BAILE_DEL_TROLEO.mp4';
-
-    video.onplay = function () {//cuando el video empiaza a play llamamos a pintar video
-        pintarVideo(video);
+function prepararDnD2(){
+    let sec = document.querySelector('#sec03');
+    sec.ondragover = function (evt) {
+        evt.preventDefault();
     };
+    sec.ondrop = function (evt) {
+        evt.preventDefault();
+        let fichero = evt.dataTransfer.files[0],
+            fr=new FileReader();
+            fr.onload=function(){
+                document.querySelector('#sec03>img').src=fr.result;
+            };
+            fr.readAsDataURL(fichero);
 
-    video.play();
+    }
+}
+function prepararCanvas7(){
+    let cv=document.querySelector('#cv07');
+    cv.width=480;
+    cv.height=360;
+    //preparar el drop sobre canvas
+    cv.ondragover=function(evt){
+        evt.preventDefault();
+        evt.stopPropagation();
+    }
+    cv.ondrop=function(evt){
+        evt.preventDefault();
+        evt.stopPropagation();
+        let fichero=evt.dataTransfer.files[0],
+            fr = new FileReader();;
+        fr.onload = function () {
+            let img=new Image();
+            img.onload=function () {
+                let ctx=cv.getContext('2d');
+                ctx.drawImage(img,0,0,cv.width,cv.height);
+
+                window.imgDataOriginal=ctx.getImageData(0,0,cv.width,cv.height);
+            }
+            img.src=fr.result;
+            //document.querySelector('#sec03>img').src = fr.result;
+        };
+        fr.readAsDataURL(fichero);
+    }
+}
+function restaurar(){
+    let cv=document.querySelector('#cv07'),
+    ctx=cv.getContext('2d');
+    ctx.putImageData(window.imgDataOriginal,0,0);
 }
