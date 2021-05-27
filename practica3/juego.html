@@ -12,7 +12,7 @@
 
 </head>
 
-<body>
+<body onload="lanzaderaj();">
 
 
     <header>
@@ -21,8 +21,26 @@
         <h2>cabesera </h2>
 
     </header>
-    <div class="content">
+    <div id="general">
+        <div id="ImagenFinal">
+            <h3>Imagen a conseguir:</h3>
+            <img id="iFinal" href="imagenes/unnamed.jpg" alt="Error: no se ha podido cargar la imagen" width="430" height="360">
+        </div>
+        <div id="ImagenCanvas">
+            <h3>Puzzle:</h3>
+            <section id="iPuzzle">
+                <canvas id="cv01"></canvas>
 
+                <footer>
+                    <h6>Contador: </h6>
+                    <button onclick="divisiones();">dividir</button>
+                    <button href="index.html">Terminar</button>
+                </footer>
+                <script>
+                    prepararCanvas();
+                </script>
+            </section>
+        </div>
     </div>
 
 

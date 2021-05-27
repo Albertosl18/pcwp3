@@ -12,13 +12,14 @@
 
 </head>
 
-<body onload="puntuaciones();">
+<body onload="lanzadera();">
 
 
     <header>
+        <img id="logo" alt="logo" src="imagenes/logo.png">
 
         <h1>PUZZLES </h1>
-        <h2>cabesera </h2>
+        <h2>juego en el que tienes que resolver puzzles </h2>
 
     </header>
     <div class="content">
@@ -30,6 +31,19 @@
             <li><a onclick="pedirPuntuacionesA();" class="previous round">&#8249;</a></li>
             <li><a onclick="pedirPuntuacionesS();" class="next round">&#8250;</a></li>
         </ul>
+        <div>
+            <h4>Opciones de juego</h4>
+        </div>
+        <div id="imagenesS"></div>
+        <div id="Dificultad">
+            <h4>Dificultad</h4>
+            <button onclick="dificultadEle(1);">4x4</button>
+            <button onclick="dificultadEle(2);">6x6</button>
+            <button onclick="dificultadEle(3);">8x8</button><br>
+        </div>
+        <div>
+            <button onclick="jugar();">Jugar</button>
+        </div>
     </div>
 
 

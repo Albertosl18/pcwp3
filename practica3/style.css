@@ -3,7 +3,53 @@ img{
     max-height: 100%;
 }
 
+canvas{
+    border:1px solid #000;
+}
 
+#logo{
+  width: 60px;
+  height: 60px;
+  float: left;
+}
+
+#imgen:hover{
+  visibility:visible;
+  transform: scale(1.1);
+
+}
+
+@media all and (max-width:360px){
+#imagenesS{
+  display: inline-block;
+  width: 60%;
+  height: 60%;
+}
+}
+
+@media all and (min-width:361px){
+#imagenesS{
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+}
+}
+
+@media all and (min-width:676px){
+  #imagenesS{
+  display: inline-block;
+  width: 45%;
+  height: 45%;
+}
+}
+
+@media all and (min-width:700px){
+  #imagenesS{
+  display: inline-block;
+  width: 30%;
+  height: 30%;
+}
+}
 body{
     font-family: "Roboto";
     background: #d9d6c8;
@@ -145,4 +191,32 @@ form>div{
 }
 form>div>label{
   width: 6em;
+}
+
+div#general{
+  margin: auto;
+  margin-top: 50px;
+  width: 960px;
+  height: 800px;
+
+}
+
+div#ImagenCanvas{
+
+  width: 300px;
+  height: 500px;
+
+}
+
+div#ImagenFinal{
+  width: 640px;
+  height: 200px;
+}
+
+.img{
+  border: black 5px solid;
+}
+
+.img2{
+  border: black 0px solid;
 }
