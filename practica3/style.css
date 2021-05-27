@@ -18,7 +18,6 @@ canvas{
   transform: scale(1.1);
 
 }
-
 @media all and (max-width:360px){
 #imagenesS{
   display: inline-block;
@@ -219,4 +218,38 @@ div#ImagenFinal{
 
 .img2{
   border: black 0px solid;
+}
+
+#msj-modal{
+    position: fixed;
+    left:0;
+    top:0;
+    bottom: 0;
+    right: 0;
+
+    background-color: rgba(255,255,255,.8);
+}
+
+#msj-modal>article{
+    width: 20em;
+    border:1px solid #000;
+    text-align: center;
+
+    background-color: #fff;
+
+    position: relative;
+    top: 5em;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#msj-modal>article>h2{
+    margin: 0;
+    padding: .5em;
+    background-color:#d9d6c8;
+    color:black;
+}
+
+#msj-modal>article>footer{
+    margin: .5em;
 }

@@ -5,7 +5,7 @@ function lanzadera() {
     imagenes();
 }
 
-
+//index==========================================================================0
 function puntuaciones() {//peticiones
     let url = 'api/puntuaciones?ord=dd,ja';
 
@@ -150,7 +150,7 @@ function pedirPuntuacionesA() {
 }
 
 
-
+//cargar las imagenes de index
 function imagenes() {
     let url = 'api/imagenes';
     sessionStorage['imagenR'] = null;
@@ -197,13 +197,75 @@ function dificultadEle(y){
 }
 
 function jugar(){
-    if(sessionStorage['id_imagen']!=null && sessionStorage['id_dificultad']!=null){
+    if (sessionStorage['id_imagen'] == null && sessionStorage['id_dificultad'] == null){
+        console.log("ninguno");
+        mostrarMensajeNingunaOP();
+    } else if (sessionStorage['id_imagen'] == null && sessionStorage['id_dificultad'] != null){
+        console.log("falta imagen");
+        mostrarMensajeNoImagen();
+    } else if (sessionStorage['id_imagen'] != null && sessionStorage['id_dificultad'] == null){
+        console.log("falta dificultad");
+        mostrarMensajeNoDificultad();
+    } else if(sessionStorage['id_imagen']!=null && sessionStorage['id_dificultad']!=null){
+        sessionStorage['id_imagen2'] = sessionStorage['id_imagen'];
+        sessionStorage['id_dificultad2'] = sessionStorage['id_dificultad'];
         window.location.href ="juego.html";
     }else{
         console.log("falta introducir algun dato")
     }
 }
 
+function mostrarMensajeNingunaOP() {
+    let div = document.createElement('div');
+
+    div.id = 'msj-modal';
+
+    html = `<article>
+                <h2>No se puede comenzar el juego</h2>
+                <p>Falta introducir:</p><br>
+                <p>-Imagen</p><br>
+                <p>-Dificultad</p>
+                <footer>
+                    <button onclick="document.querySelector('#msj-modal').remove();">Cerrar</button>
+                </footer>
+            </article>`;
+    div.innerHTML = html;
+    document.body.appendChild(div);
+}
+
+function mostrarMensajeNoImagen() {
+    let div = document.createElement('div');
+
+    div.id = 'msj-modal';
+
+    html = `<article>
+                <h2>No se puede comenzar el juego</h2>
+                <p>Falta introducir:</p><br>
+                <p>-Imagen</p>
+                <footer>
+                    <button onclick="document.querySelector('#msj-modal').remove();">Cerrar</button>
+                </footer>
+            </article>`;
+    div.innerHTML = html;
+    document.body.appendChild(div);
+}
+
+function mostrarMensajeNoDificultad() {
+    let div = document.createElement('div');
+
+    div.id = 'msj-modal';
+
+    html = `<article>
+                <h2>No se puede comenzar el juego</h2>
+                <p>Falta introducir:</p><br>
+                <p>-Dificultad</p>
+                <footer>
+                    <button onclick="document.querySelector('#msj-modal').remove();">Cerrar</button>
+                </footer>
+            </article>`;
+    div.innerHTML = html;
+    document.body.appendChild(div);
+}
 
 
 //juego=================================================================0
@@ -218,7 +280,7 @@ function cargarImagen() {
         ctx.drawImage(imagen, 0, 0, cv.width, imagen.height * factor);//los cv es para ajustarla al canvas//esto es para ajustarla
     };
 
-    imagen.src = sessionStorage['id_imagen'];
+    imagen.src = sessionStorage['id_imagen2'];
 }
 
 function lanzaderaj() {
@@ -272,4 +334,8 @@ function divisiones() {
         ctx2.lineTo(cv2.width, i * alto);
     }
     ctx2.stroke();
+}
+
+function terminar() {//no terminada xd
+    window.location.href="index.html";
 }
