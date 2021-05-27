@@ -270,22 +270,18 @@ function mostrarMensajeNoDificultad() {
 
 //juego=================================================================0
 function cargarImagen() {
-    let cv = document.querySelector('#cv01'),
-        ctx = cv.getContext('2d'),
-        imagen = new Image(),
-        factor;//uso esto para que la imagen no se estire en el canvas
-
-    imagen.onload = function () {
-        factor = cv.width / imagen.width;
-        ctx.drawImage(imagen, 0, 0, cv.width, imagen.height * factor);//los cv es para ajustarla al canvas//esto es para ajustarla
-    };
-
-    imagen.src = sessionStorage['id_imagen2'];
+    let cv1 = document.querySelector('#iFinal'),
+        cv2 = document.querySelector('#cv01'),
+        ctx2 = cv2.getContext('2d');
+       // factor;
+    //factor = cv2.width / cv1.width;
+    ctx2.drawImage(cv1, 0, 0, cv2.width, cv2.height);
 }
 
 function lanzaderaj() {
     document.getElementById("iFinal").src=sessionStorage['id_imagen'];
     cargarImagen();
+    divisiones();
 }
 
 function prepararCanvas() {
@@ -297,17 +293,25 @@ function prepararCanvas() {
     cv.onclick = function (evt) {
         let x = evt.offsetX,
             y = evt.offsetY,
-            ancho = cv.width / 2,
-            alto = cv.height / 2,
+            ancho,
+            alto,
             fila = Math.floor(y / alto),
             columna = Math.floor(x / ancho);
-
+        if (sessionStorage['id_dificultad2'] == 1) {
+            ancho = cv.width / 4;
+            alto = cv.height / 4;
+        } else if (sessionStorage['id_dificultad2'] == 2) {
+            ancho = cv.width / 6;
+            alto = cv.height / 6;
+        } else if (sessionStorage['id_dificultad2'] == 3) {
+            ancho = cv.width / 8;
+            alto = cv.height / 8;
+        }
         console.log(x + ',' + y);
         console.log(columna + ',' + fila);//con esto saco la region de las divisiones en la que estoy
 
         //como pintar la region correspondiente
         let cv1 = document.querySelector('#iFinal'),
-            ctx1 = cv1.getContext('2d'),
             cv2 = cv,
             ctx2 = cv2.getContext('2d');
 
@@ -316,24 +320,64 @@ function prepararCanvas() {
 }
 
 function divisiones() {
-    let cv2 = document.querySelector('#cv01'),
-        ctx2 = cv2.getContext('2d'),
-        ancho = cv2.width / 2,
-        alto = cv2.height / 2;
+    if (sessionStorage['id_dificultad2']==1){
+        let cv2 = document.querySelector('#cv01'),
+            ctx2 = cv2.getContext('2d'),
+            ancho = cv2.width / 4,
+            alto = cv2.height / 4;
 
-    ctx2.beginPath();
-    ctx2.lineWidth = 2;
-    ctx2.strokeStyle = '#a00';
+        ctx2.beginPath();
+        ctx2.lineWidth = 2;
+        ctx2.strokeStyle = '#a00';
 
-    for (let i = 1; i < 2; i++) {
-        //verticales
-        ctx2.moveTo(i * ancho, 0);
-        ctx2.lineTo(i * ancho, cv2.height);
-        //horizontales
-        ctx2.moveTo(0, i * alto);
-        ctx2.lineTo(cv2.width, i * alto);
+        for (let i = 1; i < 4; i++) {
+            //verticales
+            ctx2.moveTo(i * ancho, 0);
+            ctx2.lineTo(i * ancho, cv2.height);
+            //horizontales
+            ctx2.moveTo(0, i * alto);
+            ctx2.lineTo(cv2.width, i * alto);
+        }
+        ctx2.stroke();
+    } else if (sessionStorage['id_dificultad2'] == 2) {
+        let cv2 = document.querySelector('#cv01'),
+            ctx2 = cv2.getContext('2d'),
+            ancho = cv2.width / 6,
+            alto = cv2.height / 6;
+
+        ctx2.beginPath();
+        ctx2.lineWidth = 2;
+        ctx2.strokeStyle = '#a00';
+
+        for (let i = 1; i < 6; i++) {
+            //verticales
+            ctx2.moveTo(i * ancho, 0);
+            ctx2.lineTo(i * ancho, cv2.height);
+            //horizontales
+            ctx2.moveTo(0, i * alto);
+            ctx2.lineTo(cv2.width, i * alto);
+        }
+        ctx2.stroke();
+    } else if (sessionStorage['id_dificultad2'] == 3) {
+        let cv2 = document.querySelector('#cv01'),
+            ctx2 = cv2.getContext('2d'),
+            ancho = cv2.width / 8,
+            alto = cv2.height / 8;
+
+        ctx2.beginPath();
+        ctx2.lineWidth = 2;
+        ctx2.strokeStyle = '#a00';
+
+        for (let i = 1; i < 8; i++) {
+            //verticales
+            ctx2.moveTo(i * ancho, 0);
+            ctx2.lineTo(i * ancho, cv2.height);
+            //horizontales
+            ctx2.moveTo(0, i * alto);
+            ctx2.lineTo(cv2.width, i * alto);
+        }
+        ctx2.stroke();
     }
-    ctx2.stroke();
 }
 
 function terminar() {//no terminada xd
