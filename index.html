@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="stylesheet" href="style.css">
+    <title>PCW</title>
+    <script src="codigo.js"></script>
+
+</head>
+
+<body onload="lanzadera();">
+
+
+    <header>
+        <img id="logo" alt="logo" src="imagenes/logo.png">
+
+        <h1>PUZZLES </h1>
+        <h2>juego en el que tienes que resolver puzzles </h2>
+
+    </header>
+    <div class="content">
+        <div>
+            <h4>Tabla de puntuaciones</h4>
+        </div>
+        <div id="puntuaciones"></div>
+        <ul class="pagination">
+            <li><a onclick="pedirPuntuacionesA();" class="previous round">&#8249;</a></li>
+            <li><a onclick="pedirPuntuacionesS();" class="next round">&#8250;</a></li>
+        </ul>
+        <div>
+            <h4>Opciones de juego</h4>
+        </div>
+        <div id="imagenesS"></div>
+        <div id="Dificultad">
+            <h4>Dificultad</h4>
+            <button onclick="dificultadEle(1);">4x4</button>
+            <button onclick="dificultadEle(2);">6x6</button>
+            <button onclick="dificultadEle(3);">8x8</button><br>
+        </div>
+        <div>
+            <button onclick="jugar();">Jugar</button>
+        </div>
+    </div>
+
+
+    <footer>
+
+        <p>&copy; <strong><a href="acerca.html">Acerca de</a></strong><time datetime="2021-02-23"> </time></p>
+    </footer>
+
+</body>
+
+</html>

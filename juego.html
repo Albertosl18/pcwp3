@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="stylesheet" href="style.css">
+    <title>PCW</title>
+    <script src="codigo.js"></script>
+
+</head>
+
+<body onload="lanzaderaj();">
+
+
+    <header>
+
+        <h1>PUZZLES </h1>
+        <h2>cabesera </h2>
+
+    </header>
+    <div id="general">
+        <div id="ImagenFinal">
+            <h3>Imagen a conseguir:</h3>
+            <img id="iFinal" href="imagenes/unnamed.jpg" alt="Error: no se ha podido cargar la imagen" width="430" height="360">
+        </div>
+        <div id="ImagenCanvas">
+            <h3>Puzzle:</h3>
+            <section id="iPuzzle">
+                <canvas id="cv01"></canvas>
+
+                <footer>
+                    <h6>Contador: </h6>
+                    <button onclick="divisiones();">dividir</button>
+                    <button href="index.html">Terminar</button>
+                </footer>
+                <script>
+                    prepararCanvas();
+                </script>
+            </section>
+        </div>
+    </div>
+
+
+    <footer>
+
+        <p>&copy; <strong><a href="acerca.html">Acerca de</a></strong><time datetime="2021-02-23"> </time></p>
+    </footer>
+
+</body>
+
+</html>
