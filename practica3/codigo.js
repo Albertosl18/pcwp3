@@ -4,6 +4,13 @@ var difi =null;
 var imgsrc =null;
 var contadorM = null;
 var imagenAnt= "";
+//Juego.html
+var cara = 0;
+var contador = -1;
+
+var matrizGanadora = [];
+var matrizAleatoria = [];
+
 function lanzadera() {
     puntuaciones();
     imagenes();
@@ -360,7 +367,10 @@ function lanzaderaj() {
     if (sessionStorage['id_imagen2'] == null || sessionStorage['id_dificultad2']==null){
         window.location.href = "index.html";
     }else{
+        ponerfondo();
         divisiones();
+        contar();
+        mezclar();
     }
 }
 function prepararCanvas() {
@@ -370,16 +380,26 @@ function prepararCanvas() {
     cv.height = 360;
 
     cargarImagen();
+
 }
+
+
 
 function prepararCanvas2() {
     copiarImagen();
-    let cv = document.querySelector('#cv02');
 
+
+
+    let cv = document.querySelector('#cv02'),
+    ctx11 = cv.getContext('2d');
     cv.width = 480;
     cv.height = 360;
 
+    ctx11.fillStyle = '#4ACFFFFF';
+    ctx11.fillRect(0, 0, cv.width, cv.height);
+
     cv.onclick = function (evt) {
+        contar();
         let x = evt.offsetX,
             y = evt.offsetY,
             ancho,
@@ -396,19 +416,49 @@ function prepararCanvas2() {
             ancho = cv.width / 8;
             alto = cv.height / 8;
         }
-        fila = Math.floor(y / alto);
-        columna = Math.floor(x / ancho);
+        fila1 = Math.floor(y / alto);
+        columna1 = Math.floor(x / ancho);
         console.log(x + ',' + y);
         console.log(columna + ',' + fila);//con esto saco la region de las divisiones en la que estoy
+
+        var nx = matrizAleatoria[fila1][columna1];
+
+        fila = Math.floor(nx);
+        columna= Math.floor((nx-fila)*10);
 
         //como pintar la region correspondiente
         let cv1 = document.querySelector('#cv01'),
             cv2 = cv,
             ctx2 = cv2.getContext('2d');
 
-        ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna * ancho, fila * alto, ancho, alto);
+
+        if(cara==0){
+            ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
+            cara=1;
+            divisiones();
+        }else{
+            ctx2.fillStyle = '#4ACFFFFF';
+            ctx2.fillRect(ancho*columna,alto* fila, ancho, alto);
+            cara=0;
+            divisiones();
+        }
     };
 }
+
+function aleatorio(min,max) {
+    return Math.floor(Math.random()*((max+1)-min)+min);
+}
+
+
+function contar() {
+    contador++;
+    console.log(contador);
+    let div = document.createElement('div');
+    div.innerHTML= "Contador= " + contador;
+    document.querySelector('#contador').innerHTML = ' ';
+    document.querySelector('#contador').appendChild(div);
+}
+
 
 function copiarImagen() {
     let cv1 = document.querySelector('#cv01'),
@@ -417,6 +467,15 @@ function copiarImagen() {
         ctx2 = cv2.getContext('2d');
 
     ctx2.drawImage(cv1, 0, 0);
+}
+
+
+function ponerfondo() {//dibujo en 2d: Cuadrado
+    let cv = document.querySelector('#cv02'),
+        ctx = cv.getContext('2d');
+
+    ctx.fillStyle = '#4ACFFFFF';//para llenar algo de un color
+    ctx.fillRect(1, 1, cv.with, cv.height);//paraa hacer la figura
 }
 
 function divisiones() {
@@ -482,4 +541,71 @@ function divisiones() {
 
 function terminar() {//no terminada xd
     window.location.href="index.html";
+}
+
+
+function mezclar() {
+    var di;
+    if (sessionStorage['id_dificultad2'] == 1) {
+        di = 4;
+    } else if (sessionStorage['id_dificultad2'] == 2) {
+        di = 6;
+    } else if (sessionStorage['id_dificultad2'] == 3) {
+        di = 8;
+    }
+
+
+    for (var i = 0; i < di; i++) {
+        matrizGanadora[i] = new Array(di);
+    }
+    //creamos la matriz ganadora
+    for (var j = 0; j < di; j++) {
+        for (var k = 0; k < di; k++) {
+            matrizGanadora[j][k] = j+k*0.1;
+            matrizGanadora[j][k] = Math.round(matrizGanadora[j][k]*10)/10;
+        }
+    }
+
+
+    for (var i = 0; i < di; i++) {
+        matrizAleatoria[i] = new Array(di);
+    }
+
+    for (var j = 0; j < di; j++) {
+        for (var k = 0; k < di; k++) {
+            matrizAleatoria[j][k] = j+k*0.1;
+            matrizAleatoria[j][k] = Math.round(matrizAleatoria[j][k] * 10) / 10;
+        }
+    }
+
+    var i,j,temp;
+
+    for(i=di-1; i>=0; i--){
+        j = Math.floor(Math.random()*(i+1));
+        temp = matrizAleatoria[i];
+        matrizAleatoria[i] = matrizAleatoria[j];
+        matrizAleatoria[j] = temp;
+
+    }
+    for (z = di - 1; z >= 0; z--) {
+        for (i = di - 1; i >= 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            temp = matrizAleatoria[z][i];
+            matrizAleatoria[z][i] = matrizAleatoria[z][j];
+            matrizAleatoria[z][j] = temp;
+
+        }
+    }
+    for (z = di - 1; z >= 0; z--) {
+        for (i = di - 1; i >= 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            temp = matrizAleatoria[i][z];
+            matrizAleatoria[i][z] = matrizAleatoria[j][z];
+            matrizAleatoria[j][z] = temp;
+
+        }
+    }
+
+    console.log(matrizGanadora);
+    console.log(matrizAleatoria);
 }
