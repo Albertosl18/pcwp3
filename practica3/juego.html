@@ -23,20 +23,26 @@
     </header>
     <div id="general">
         <div id="ImagenFinal">
-            <h3>Imagen a conseguir:</h3>
-            <img id="iFinal" href="imagenes/unnamed.jpg" alt="Error: no se ha podido cargar la imagen" width="430" height="360">
+            <section>
+                <h3>Imagen a conseguir:</h3>
+                <canvas id="cv01"></canvas>
+            </section>
+            <script>
+                prepararCanvas();
+            </script>
+
         </div>
         <div id="ImagenCanvas">
             <h3>Puzzle:</h3>
             <section id="iPuzzle">
-                <canvas id="cv01"></canvas>
+                <canvas id="cv02"></canvas>
 
                 <footer>
                     <h6>Contador: </h6>
                     <button onclick="terminar();">Terminar</button>
                 </footer>
                 <script>
-                    prepararCanvas();
+                    prepararCanvas2();
                 </script>
             </section>
         </div>
