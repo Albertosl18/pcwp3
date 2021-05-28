@@ -253,3 +253,20 @@ div#ImagenFinal{
 #msj-modal>article>footer{
     margin: .5em;
 }
+#ImagenFinal{
+  text-align: right;
+  position: absolute;
+  display:inline-block;
+  left:50%
+
+}
+#ImagenFinal>section>h3{
+  text-align: center;
+
+}
+#ImagenCanvas{
+  text-align: left;
+display:inline-block;
+height: auto;
+width: auto;
+}
