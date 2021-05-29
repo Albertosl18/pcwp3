@@ -1,9 +1,10 @@
 var posicion = 6;
 //he utilizado variables globales en vez de session storage antes de darle a jugar(cuando le das si que se usa el session). Para que sea mas facil de probar los mensajes.
-var difi =null;
-var imgsrc =null;
+var difi = null;
+var imgsrc = null;
+var imgID = null;
 var contadorM = null;
-var imagenAnt= "";
+var imagenAnt = "";
 //Juego.html
 var cara = 0;
 var contador = -1;
@@ -18,6 +19,7 @@ function lanzadera() {
     imagenes();
     sessionStorage['id_imagen2'] = null;
     sessionStorage['id_dificultad2'] = null;
+    sessionStorage['id_imagen3'] = null;
 }
 
 //index==========================================================================0
@@ -30,17 +32,17 @@ function puntuaciones() {//peticiones
                 console.log(datos);
                 let ul = document.createElement('ul');
                 let ul2 = document.createElement('ul');
-                var lugar=0;
+                var lugar = 0;
                 datos.FILAS.forEach(function (e, idx, v) {
                     lugar++;
                 });
-                var posi=0;
+                var posi = 0;
                 datos.FILAS.forEach(function (e, idx, v) {
-                    if(posi<6){
-                    posi++;
-                    let li = document.createElement('li');
-                    li.innerHTML = posi + " " + e.usuario + " " + e.id_imagen + " " + e.dificultad + " " + e.jugadas;
-                    ul.appendChild(li);
+                    if (posi < 6) {
+                        posi++;
+                        let li = document.createElement('li');
+                        li.innerHTML = posi + " " + e.usuario + " " + e.id_imagen + " " + e.dificultad + " " + e.jugadas;
+                        ul.appendChild(li);
                     }
                 });
 
@@ -83,11 +85,12 @@ function pedirPuntuacionesS() {
                     return;
                 }
 
-                var posi = posicion-6;
-
+                var posi = posicion - 6;
+                var x=0;
                 datos.FILAS.forEach(function (e, idx, v) {
-                    if (e.id <= posicion && e.id > posicion - 6) {
-                        let div = document.createElement('div');
+                    x++;
+                    if (x>posi && x<=posicion) {
+                        let div = document.createElement('li');
                         posi++;
                         div.innerHTML = posi + " " + e.usuario + " " + e.id_imagen + " " + e.dificultad + " " + e.jugadas;
                         ul.appendChild(div);
@@ -136,10 +139,11 @@ function pedirPuntuacionesA() {
                 }
 
                 var posi = posicion - 6;
-
+                var x=0;
                 datos.FILAS.forEach(function (e, idx, v) {
-                    if (e.id <= posicion && e.id > posicion - 6) {
-                        let div = document.createElement('div');
+                    x++;
+                    if (x > posi && x <= posicion) {
+                        let div = document.createElement('li');
                         posi++;
                         div.innerHTML = posi + " " + e.usuario + " " + e.id_imagen + " " + e.dificultad + " " + e.jugadas;
                         ul.appendChild(div);
@@ -182,7 +186,6 @@ function imagenes() {
                         li.innerHTML = '<div id="imgen"><img id="img'+ x +'" onclick="imagenEle(this.src, this.id);" src="imagenes/' + e.fichero + '" alt="imagen"> <br> ' + e.nombre + '</div>';
                         ul.appendChild(li);
                 });
-
                 document.querySelector('#imagenesS').innerHTML = ' ';//esto hace que se limpie primero y no se pete de peticiones
                 document.querySelector('#imagenesS').appendChild(ul);//las peticiones aparecen
             });
@@ -206,7 +209,7 @@ function imagenes() {
                 datos.FILAS.forEach(function (e, idx, v) {
                     x++;
                     let li = document.createElement('li');
-                    li.innerHTML = '<div><img id="img' + x + '" onclick="imagenEle(this.src, this.id);" src="imagenes/' + e.fichero + '" alt="imagen"> <br> ' + e.nombre + '</div>';
+                    li.innerHTML = '<div><img id="img' + x + '" class="imgnes" onclick="imagenEle(this.src, this.id, this.alt);" src="imagenes/' + e.fichero + '" alt="'+ e.id +'"> <br> ' + e.nombre + '</div>';
                     ul.appendChild(li);
                 });
 
@@ -224,7 +227,6 @@ function imagenes() {
 /*
 function imagenEle(x, y) {//recibe el src(x) y el id(y)
     sessionStorage['id_imagen']= x;
-
     if(sessionStorage['contadorM']==1){
         var imge2 = document.getElementById(sessionStorage['imagenR']);
         imge2.className = 'img2';
@@ -236,12 +238,13 @@ function imagenEle(x, y) {//recibe el src(x) y el id(y)
 }
 */
 
-function imagenEle(x, y) {//recibe el src(x) y el id(y)
-    imgsrc= x;
+function imagenEle(x, y, z) {//recibe el src(x) y el id(y)
+    imgsrc = x;
+    imgID = z;
 
-    if(contadorM==1){
+    if (contadorM == 1) {
         var imge2 = document.getElementById(imagenAnt);
-        imge2.className = 'img2';
+        imge2.className = 'imgnes';
     }
     imagenAnt = y;
     var imge = document.getElementById(y);
@@ -289,6 +292,7 @@ function jugar() {
         mostrarMensajeNoDificultad();
     } else if (imgsrc != null && difi != null) {
         sessionStorage['id_imagen2'] = imgsrc;
+        sessionStorage['id_imagen3'] = imgID;
         sessionStorage['id_dificultad2'] = difi;
         window.location.href = "juego.html";
     } else {
@@ -366,9 +370,9 @@ function cargarImagen() {
 }
 
 function lanzaderaj() {
-    if (sessionStorage['id_imagen2'] == null || sessionStorage['id_dificultad2']==null){
+    if (sessionStorage['id_imagen2'] == null || sessionStorage['id_dificultad2'] == null) {
         window.location.href = "index.html";
-    }else{
+    } else {
         ponerfondo();
         divisiones();
         contar();
@@ -393,15 +397,15 @@ function prepararCanvas2() {
 
 
     let cv = document.querySelector('#cv02'),
-    ctx11 = cv.getContext('2d');
+        ctx11 = cv.getContext('2d');
     cv.width = 480;
     cv.height = 360;
 
     ctx11.fillStyle = '#4ACFFFFF';
     ctx11.fillRect(0, 0, cv.width, cv.height);
 
-    seleccionada[0]=-1;
-    seleccionada[1]= -1;
+    seleccionada[0] = -1;
+    seleccionada[1] = -1;
 
 
     cv.onclick = function (evt) {
@@ -434,15 +438,15 @@ function prepararCanvas2() {
         console.log(nx);
 
         fila = Math.floor(nx);
-        auxc =(nx-fila)*10;
-        columna= Math.round(auxc);
+        auxc = (nx - fila) * 10;
+        columna = Math.round(auxc);
         console.log(fila + ',' + columna);
         //como pintar la region correspondiente
         let cv1 = document.querySelector('#cv01'),
             cv2 = cv,
             ctx2 = cv2.getContext('2d');
 
-        if(comprobar(fila1,columna1)){//primero compruebo si en la que pincho está bien y no cuenta
+        if (comprobar(fila1, columna1)) {//primero compruebo si en la que pincho está bien y no cuenta
             if (!comprobarVolteada(fila1, columna1)) {
                 volteadas.push(fila1 + columna1 * 0.1);
                 ctx2.fillStyle = '#4ACFFFFF';
@@ -451,22 +455,67 @@ function prepararCanvas2() {
 
                 ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
                 divisiones();
+
+                if(victoria()){
+                    mostrarMensajeVictoria();
+                }
             }
-        }else if(!comprobarVolteada(fila1,columna1)){
+        } else if (!comprobarVolteada(fila1, columna1)) {
             ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
+            divisiones();
+            ctx2.fillStyle = 'rgba(56,113,135,0.4)';
+            ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
             divisiones();
             volteadas.push(fila1 + columna1 * 0.1);
             console.log(volteadas);
 
-                if(seleccionada[0]==-1){
-                    seleccionada[0]=fila1;
-                    seleccionada[1]=columna1;
-                    seleccionada[2]=fila;
-                    seleccionada[3]= columna;
-                    console.log("seleccionada= " + seleccionada);
-                }else{
+            if (seleccionada[0] == -1) {
+                seleccionada[0] = fila1;
+                seleccionada[1] = columna1;
+                seleccionada[2] = fila;
+                seleccionada[3] = columna;
+                console.log("seleccionada= " + seleccionada);
+            } else {
 
-                    //pinto en la que estamos con la ot
+                //pinto en la que estamos con la ot
+
+
+                ctx2.fillStyle = '#4ACFFFFF';
+                ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
+                divisiones();
+
+                ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
+                divisiones();
+
+                ctx2.fillStyle = 'rgba(56,113,135,0.4)';
+                ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
+                divisiones();
+
+                //pinto la otra con la que estamos
+                ctx2.fillStyle = '#4ACFFFFF';
+                ctx2.fillRect(ancho * seleccionada[1], alto * seleccionada[0], ancho, alto);
+                divisiones();
+
+                ctx2.drawImage(cv1, seleccionada[3] * ancho, seleccionada[2] * alto, ancho, alto, seleccionada[1] * ancho, seleccionada[0] * alto, ancho, alto);
+                divisiones();
+
+                ctx2.fillStyle = 'rgba(56,113,135,0.4)';
+                ctx2.fillRect(ancho * seleccionada[1], alto * seleccionada[0], ancho, alto);
+                divisiones();
+
+
+                setTimeout(function () {
+                    var postemp = matrizAleatoria[fila1][columna1];//no estan los decimales hijos de puta (puede dar error por esto)
+                    matrizAleatoria[fila1][columna1] = matrizAleatoria[seleccionada[0]][seleccionada[1]];
+                    matrizAleatoria[seleccionada[0]][seleccionada[1]] = postemp;
+                    console.log(matrizAleatoria);
+
+                    //pinto en la que estamos con la otra
+                    var nx = matrizAleatoria[fila1][columna1];
+                    fila = Math.floor(nx);
+                    auxc = (nx - fila) * 10;
+                    columna = Math.round(auxc);
+
                     ctx2.fillStyle = '#4ACFFFFF';
                     ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
                     divisiones();
@@ -474,89 +523,67 @@ function prepararCanvas2() {
                     ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
                     divisiones();
 
+                    if (!comprobar(fila1, columna1)) {
+                        eliminarVolteada(fila1, columna1);
+                        ctx2.fillStyle = '#4ACFFFFF';
+                        ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
+                        divisiones();
+                    }
+
                     //pinto la otra con la que estamos
+                    fila1 = seleccionada[0];
+                    columna1 = seleccionada[1];
+                    var nx = matrizAleatoria[fila1][columna1];
+                    fila = Math.floor(nx);
+                    auxc = (nx - fila) * 10;
+                    columna = Math.round(auxc);
+
                     ctx2.fillStyle = '#4ACFFFFF';
-                    ctx2.fillRect(ancho * seleccionada[1], alto * seleccionada[0], ancho, alto);
+                    ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
                     divisiones();
 
-                    ctx2.drawImage(cv1, seleccionada[3] * ancho, seleccionada[2] * alto, ancho, alto, seleccionada[1] * ancho, seleccionada[0] * alto, ancho, alto);
+                    ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
                     divisiones();
 
-
-                    setTimeout(function(){
-                        var postemp = matrizAleatoria[fila1][columna1];//no estan los decimales hijos de puta (puede dar error por esto)
-                        matrizAleatoria[fila1][columna1] = matrizAleatoria[seleccionada[0]][seleccionada[1]];
-                        matrizAleatoria[seleccionada[0]][seleccionada[1]] = postemp;
-                        console.log(matrizAleatoria);
-
-                        //pinto en la que estamos con la otra
-                        var nx = matrizAleatoria[fila1][columna1];
-                        fila = Math.floor(nx);
-                        auxc = (nx - fila) * 10;
-                        columna = Math.round(auxc);
-
+                    if (!comprobar(fila1, columna1)) {
+                        eliminarVolteada(fila1, columna1);
                         ctx2.fillStyle = '#4ACFFFFF';
                         ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
                         divisiones();
+                    }
 
-                        ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
-                        divisiones();
+                    seleccionada[0] = -1;
+                    contar();
 
-                        if (!comprobar(fila1, columna1)) {
-                            eliminarVolteada(fila1, columna1);
-                            ctx2.fillStyle = '#4ACFFFFF';
-                            ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
-                            divisiones();
-                        }
+                    if (victoria()) {
+                        mostrarMensajeVictoria();
+                    }
 
-                        //pinto la otra con la que estamos
-                        fila1 = seleccionada[0];
-                        columna1 = seleccionada[1];
-                        var nx = matrizAleatoria[fila1][columna1];
-                        fila = Math.floor(nx);
-                        auxc = (nx - fila) * 10;
-                        columna = Math.round(auxc);
 
-                        ctx2.fillStyle = '#4ACFFFFF';
-                        ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
-                        divisiones();
-
-                        ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
-                        divisiones();
-
-                        if(!comprobar(fila1,columna1)){
-                            eliminarVolteada(fila1,columna1);
-                            ctx2.fillStyle = '#4ACFFFFF';
-                            ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
-                            divisiones();
-                        }
-
-                        seleccionada[0] = -1;
-                        contar();
-                    }, 1000);
-                }
+                }, 1000);
+            }
 
         }
-/*
-            ctx2.fillStyle = '#4ACFFFFF';
-            ctx2.fillRect(ancho*columna1,alto* fila1, ancho, alto);
-            cara=0;
-            divisiones();
-*/
+        /*
+                    ctx2.fillStyle = '#4ACFFFFF';
+                    ctx2.fillRect(ancho*columna1,alto* fila1, ancho, alto);
+                    cara=0;
+                    divisiones();
+        */
 
     };
 }
 
 
-function comprobar(x,y) {
-    if(matrizGanadora[x][y]==matrizAleatoria[x][y]){
+function comprobar(x, y) {
+    if (matrizGanadora[x][y] == matrizAleatoria[x][y]) {
         return true;
     }
 }
 
-function comprobarVolteada(x,y) {
-    for(var i=0; i<volteadas.length; i++){
-        if(volteadas[i]==x+y*0.1){
+function comprobarVolteada(x, y) {
+    for (var i = 0; i < volteadas.length; i++) {
+        if (volteadas[i] == x + y * 0.1) {
             return true;
         }
     }
@@ -565,21 +592,118 @@ function comprobarVolteada(x,y) {
 function eliminarVolteada(x, y) {
     for (var i = 0; i < volteadas.length; i++) {
         if (volteadas[i] == x + y * 0.1) {
-            volteadas.splice(i,1);
+            volteadas.splice(i, 1);
         }
     }
 }
 
-function aleatorio(min,max) {
-    return Math.floor(Math.random()*((max+1)-min)+min);
+function victoria() {
+    var cont=0;
+    for(var i=0;i<matrizGanadora.length;i++){
+        for(var j=0; j<matrizGanadora.length;j++){
+            if(matrizGanadora[i][j]==matrizAleatoria[i][j]){
+                cont++;
+            }
+        }
+    }
+    if(cont==matrizAleatoria.length*matrizAleatoria.length){
+        return true;
+    }else{
+        return false;
+    }
 }
 
+function mostrarMensajeVictoria() {
+    let div = document.createElement('div');
+
+    div.id = 'msj-modal';
+
+    html = `<article>
+                <h2>¡¡Enhorabuena!!</h2>
+                <p>Has montado el puzzle en ` + contador + ` jugadas</p><br>
+                <p>Nombre de usuario</p>
+                <input class="inp" placeholder="Nombre de Usuario" type="text" onblur="Nusuario(this.value);" name="login" id="nusu" value="">
+
+                <footer>
+                    <button onclick="nuevoUsuario();">Cerrar</button>
+                </footer>
+            </article>`;
+    div.innerHTML = html;
+    document.body.appendChild(div);
+}
+
+function Nusuario(x) {
+    sessionStorage['id_usuario']=x;
+}
+
+function nuevoUsuario() {
+    let url = 'api/puntuaciones',
+        fd = new FormData(),
+        nombre, dificultad, jugadas, id_imagen;
+
+
+        if (sessionStorage['id_dificultad2'] == 1) {
+            dificultad = "4x4";
+        } else if (sessionStorage['id_dificultad2'] == 2) {
+            dificultad = "6x6";
+        } else if (sessionStorage['id_dificultad2'] == 3) {
+            dificultad = "8x8";
+        }
+
+        //nombre = document.getElementById('#nusu');
+        nombre=sessionStorage['id_usuario'];
+        jugadas= contador;
+        id_imagen = sessionStorage['id_imagen3'];
+
+        if(nombre==""){
+            terminar2();
+            return;
+        }
+
+        fd.append('nombre', nombre);
+        fd.append('dificultad', dificultad);
+        fd.append('jugadas', jugadas);
+        fd.append('id_imagen', id_imagen);
+
+        fetch(url, {
+            method: 'POST',
+            body: fd//,
+            //headers: { 'Authorization': usu.login + ':' + usu.token }
+        }).then(function (response) {
+            if (!response.ok) {
+                console.log('Error ' + response.status + ': ' + response.statusText);
+            } else {
+                response.json().then(function (datos) {
+                    console.log(datos);
+
+                    mostrarMensajeVictoria2();
+                });
+            }
+        }).catch(function (error) {
+            console.log('Fetch Error: ' + error);
+        });
+}
+
+function mostrarMensajeVictoria2() {
+    let div = document.createElement('div');
+
+    div.id = 'msj-modal';
+
+    html = `<article>
+                <h2>Nombre guardado correctamente</h2>
+                <footer>
+                    <button onclick="terminar2();">Cerrar</button>
+                </footer>
+            </article>`;
+    div.innerHTML = html;
+    document.body.appendChild(div);
+}
 
 function contar() {
     contador++;
     console.log(contador);
     let div = document.createElement('div');
-    div.innerHTML= "Contador= " + contador;
+    div.innerHTML = "Contador= " + contador;
     document.querySelector('#contador').innerHTML = ' ';
     document.querySelector('#contador').appendChild(div);
 }
@@ -604,7 +728,7 @@ function ponerfondo() {//dibujo en 2d: Cuadrado
 }
 
 function divisiones() {
-    if (sessionStorage['id_dificultad2']==1){
+    if (sessionStorage['id_dificultad2'] == 1) {
         let cv2 = document.querySelector('#cv02'),
             ctx2 = cv2.getContext('2d'),
             ancho = cv2.width / 4,
@@ -665,9 +789,28 @@ function divisiones() {
 }
 
 function terminar() {//no terminada xd
-    window.location.href="index.html";
+    mostrarMensajeTerminar();
 }
 
+function mostrarMensajeTerminar() {
+    let div = document.createElement('div');
+
+    div.id = 'msj-modal';
+
+    html = `<article>
+                <h2>¡¡Lástima!!</h2>
+                <p>No has podido armar el puzle tras ` + contador + ` jugadas</p><br>
+                <footer>
+                    <button onclick="terminar2();">Cerrar</button>
+                </footer>
+            </article>`;
+    div.innerHTML = html;
+    document.body.appendChild(div);
+}
+
+function terminar2() {//no terminada xd
+    window.location.href = "index.html";
+}
 
 function mezclar() {
     var di;
@@ -686,8 +829,8 @@ function mezclar() {
     //creamos la matriz ganadora
     for (var j = 0; j < di; j++) {
         for (var k = 0; k < di; k++) {
-            matrizGanadora[j][k] = j+k*0.1;
-            matrizGanadora[j][k] = Math.round(matrizGanadora[j][k]*10)/10;
+            matrizGanadora[j][k] = j + k * 0.1;
+            matrizGanadora[j][k] = Math.round(matrizGanadora[j][k] * 10) / 10;
         }
     }
 
@@ -698,15 +841,15 @@ function mezclar() {
 
     for (var j = 0; j < di; j++) {
         for (var k = 0; k < di; k++) {
-            matrizAleatoria[j][k] = j+k*0.1;
+            matrizAleatoria[j][k] = j + k * 0.1;
             matrizAleatoria[j][k] = Math.round(matrizAleatoria[j][k] * 10) / 10;
         }
     }
 
-    var i,j,temp;
+    var i, j, temp;
 
-    for(i=di-1; i>=0; i--){
-        j = Math.floor(Math.random()*(i+1));
+    for (i = di - 1; i >= 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
         temp = matrizAleatoria[i];
         matrizAleatoria[i] = matrizAleatoria[j];
         matrizAleatoria[j] = temp;
