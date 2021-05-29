@@ -10,6 +10,8 @@ var contador = -1;
 
 var matrizGanadora = [];
 var matrizAleatoria = [];
+var volteadas = [];
+var seleccionada = [];
 
 function lanzadera() {
     puntuaciones();
@@ -398,14 +400,21 @@ function prepararCanvas2() {
     ctx11.fillStyle = '#4ACFFFFF';
     ctx11.fillRect(0, 0, cv.width, cv.height);
 
+    seleccionada[0]=-1;
+    seleccionada[1]= -1;
+
+
     cv.onclick = function (evt) {
-        contar();
+        //SE CAMBIARÁ
         let x = evt.offsetX,
             y = evt.offsetY,
             ancho,
             alto,
             fila,
-            columna;
+            fila1,
+            columna1,
+            columna,
+            auxc;
         if (sessionStorage['id_dificultad2'] == 1) {
             ancho = cv.width / 4;
             alto = cv.height / 4;
@@ -419,30 +428,146 @@ function prepararCanvas2() {
         fila1 = Math.floor(y / alto);
         columna1 = Math.floor(x / ancho);
         console.log(x + ',' + y);
-        console.log(columna + ',' + fila);//con esto saco la region de las divisiones en la que estoy
+        console.log(fila1 + ',' + columna1);//con esto saco la region de las divisiones en la que estoy
 
         var nx = matrizAleatoria[fila1][columna1];
+        console.log(nx);
 
         fila = Math.floor(nx);
-        columna= Math.floor((nx-fila)*10);
-
+        auxc =(nx-fila)*10;
+        columna= Math.round(auxc);
+        console.log(fila + ',' + columna);
         //como pintar la region correspondiente
         let cv1 = document.querySelector('#cv01'),
             cv2 = cv,
             ctx2 = cv2.getContext('2d');
 
+        if(comprobar(fila1,columna1)){//primero compruebo si en la que pincho está bien y no cuenta
+            if (!comprobarVolteada(fila1, columna1)) {
+                volteadas.push(fila1 + columna1 * 0.1);
+                ctx2.fillStyle = '#4ACFFFFF';
+                ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
+                divisiones();
 
-        if(cara==0){
+                ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
+                divisiones();
+            }
+        }else if(!comprobarVolteada(fila1,columna1)){
             ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
-            cara=1;
             divisiones();
-        }else{
+            volteadas.push(fila1 + columna1 * 0.1);
+            console.log(volteadas);
+
+                if(seleccionada[0]==-1){
+                    seleccionada[0]=fila1;
+                    seleccionada[1]=columna1;
+                    seleccionada[2]=fila;
+                    seleccionada[3]= columna;
+                    console.log("seleccionada= " + seleccionada);
+                }else{
+
+                    //pinto en la que estamos con la ot
+                    ctx2.fillStyle = '#4ACFFFFF';
+                    ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
+                    divisiones();
+
+                    ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
+                    divisiones();
+
+                    //pinto la otra con la que estamos
+                    ctx2.fillStyle = '#4ACFFFFF';
+                    ctx2.fillRect(ancho * seleccionada[1], alto * seleccionada[0], ancho, alto);
+                    divisiones();
+
+                    ctx2.drawImage(cv1, seleccionada[3] * ancho, seleccionada[2] * alto, ancho, alto, seleccionada[1] * ancho, seleccionada[0] * alto, ancho, alto);
+                    divisiones();
+
+
+                    setTimeout(function(){
+                        var postemp = matrizAleatoria[fila1][columna1];//no estan los decimales hijos de puta (puede dar error por esto)
+                        matrizAleatoria[fila1][columna1] = matrizAleatoria[seleccionada[0]][seleccionada[1]];
+                        matrizAleatoria[seleccionada[0]][seleccionada[1]] = postemp;
+                        console.log(matrizAleatoria);
+
+                        //pinto en la que estamos con la otra
+                        var nx = matrizAleatoria[fila1][columna1];
+                        fila = Math.floor(nx);
+                        auxc = (nx - fila) * 10;
+                        columna = Math.round(auxc);
+
+                        ctx2.fillStyle = '#4ACFFFFF';
+                        ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
+                        divisiones();
+
+                        ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
+                        divisiones();
+
+                        if (!comprobar(fila1, columna1)) {
+                            eliminarVolteada(fila1, columna1);
+                            ctx2.fillStyle = '#4ACFFFFF';
+                            ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
+                            divisiones();
+                        }
+
+                        //pinto la otra con la que estamos
+                        fila1 = seleccionada[0];
+                        columna1 = seleccionada[1];
+                        var nx = matrizAleatoria[fila1][columna1];
+                        fila = Math.floor(nx);
+                        auxc = (nx - fila) * 10;
+                        columna = Math.round(auxc);
+
+                        ctx2.fillStyle = '#4ACFFFFF';
+                        ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
+                        divisiones();
+
+                        ctx2.drawImage(cv1, columna * ancho, fila * alto, ancho, alto, columna1 * ancho, fila1 * alto, ancho, alto);
+                        divisiones();
+
+                        if(!comprobar(fila1,columna1)){
+                            eliminarVolteada(fila1,columna1);
+                            ctx2.fillStyle = '#4ACFFFFF';
+                            ctx2.fillRect(ancho * columna1, alto * fila1, ancho, alto);
+                            divisiones();
+                        }
+
+                        seleccionada[0] = -1;
+                        contar();
+                    }, 1000);
+                }
+
+        }
+/*
             ctx2.fillStyle = '#4ACFFFFF';
-            ctx2.fillRect(ancho*columna,alto* fila, ancho, alto);
+            ctx2.fillRect(ancho*columna1,alto* fila1, ancho, alto);
             cara=0;
             divisiones();
-        }
+*/
+
     };
+}
+
+
+function comprobar(x,y) {
+    if(matrizGanadora[x][y]==matrizAleatoria[x][y]){
+        return true;
+    }
+}
+
+function comprobarVolteada(x,y) {
+    for(var i=0; i<volteadas.length; i++){
+        if(volteadas[i]==x+y*0.1){
+            return true;
+        }
+    }
+}
+
+function eliminarVolteada(x, y) {
+    for (var i = 0; i < volteadas.length; i++) {
+        if (volteadas[i] == x + y * 0.1) {
+            volteadas.splice(i,1);
+        }
+    }
 }
 
 function aleatorio(min,max) {
