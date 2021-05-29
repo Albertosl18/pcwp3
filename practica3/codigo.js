@@ -44,7 +44,7 @@ function puntuaciones() {//peticiones
                     }
                 });
 
-                let div2 = document.createElement('div');
+                let div2 = document.createElement('li');
                 div2.innerHTML = ("Pagina").bold() + " " + posicion / 6 + " de " + Math.ceil(lugar / 6);
                 ul2.appendChild(div2);
 
@@ -95,7 +95,7 @@ function pedirPuntuacionesS() {
                     }
                 });
 
-                let div2 = document.createElement('div');
+                let div2 = document.createElement('li');
                 div2.innerHTML = ("Pagina").bold() + " " + posicion / 6 + " de " + Math.ceil(lugar / 6);
                 ul2.appendChild(div2);
 
@@ -147,7 +147,7 @@ function pedirPuntuacionesA() {
                     }
                 });
 
-                let div2 = document.createElement('div');
+                let div2 = document.createElement('li');
                 div2.innerHTML = ("Pagina").bold() + " " + posicion / 6 + " de " + Math.ceil(lugar / 6);
                 ul2.appendChild(div2);
 
@@ -206,7 +206,7 @@ function imagenes() {
                 datos.FILAS.forEach(function (e, idx, v) {
                     x++;
                     let li = document.createElement('li');
-                    li.innerHTML = '<div id="imgen"><img id="img' + x + '" onclick="imagenEle(this.src, this.id);" src="imagenes/' + e.fichero + '" alt="imagen"> <br> ' + e.nombre + '</div>';
+                    li.innerHTML = '<div><img id="img' + x + '" onclick="imagenEle(this.src, this.id);" src="imagenes/' + e.fichero + '" alt="imagen"> <br> ' + e.nombre + '</div>';
                     ul.appendChild(li);
                 });
 
