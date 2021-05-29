@@ -7,13 +7,7 @@ canvas{
     border:1px solid #000;
 }
 
-#logo{
-  width: 70px;
-  height: 70px;
-  float:left;
-  margin-left: 40%;
-  margin-top: 3%;
-}
+
 
 
 @media all and (max-width:360px){
@@ -21,6 +15,23 @@ canvas{
   display: inline-block;
   width: 60%;
   height: 60%;
+}
+#logo{
+  width: 25px;
+  height: 25px;
+  float:left;
+  margin-left: 25%;
+  margin-top: 4%;
+}
+body>header>h1{
+    font-size: 25px;
+  padding-top: 55px;
+  margin-right: 35%;
+
+}
+body>header>h2{
+    font-size: 15px;
+    font-style: italic;
 }
 }
 
@@ -30,6 +41,24 @@ canvas{
   width: 50%;
   height: 50%;
 }
+#logo{
+  width: 25px;
+  height: 25px;
+  float:left;
+  margin-left: 35%;
+  margin-top: 12%;
+}
+body>header>h1{
+    font-size: 25px;
+  padding-top: 75px;
+  margin-right: 35%;
+
+}
+body>header>h2{
+    font-size: 20px;
+    font-style: italic;
+
+}
 }
 
 @media all and (min-width:676px){
@@ -38,15 +67,57 @@ canvas{
   width: 45%;
   height: 45%;
 }
+#logo{
+  width: 30px;
+  height: 30px;
+  float:left;
+  margin-left: 30%;
+  margin-top: 10%;
+}
+body>header>h1{
+    font-size: 35px;
+  padding-top: 60px;
+  margin-right: 35%;
+
+}
+body>header>h2{
+    font-size: 25px;
+    font-style: italic;
+}
 }
 
-@media all and (min-width:700px){
-  #imagenesS{
-  display: inline-block;
-  width: 30%;
-  height: 30%;
+@media all and (min-width:900px){
+    #imagenesS{
+    display: inline-block;
+    width: 30%;
+    height: 30%;
+  }
+  #logo{
+    width: 50px;
+    height: 50px;
+    float:left;
+    margin-left: 41%;
+    margin-top: 4%;
+    position:absolute;
+  }
+  body>header>h1{
+      font-size: 40px;
+    padding-top: 50px;
+    margin-right: 45%;
+    margin-left: 45%;
+    position: absolute;
+
+  }
+  body>header>h2{
+      font-size: 30px;
+      font-style: italic;
+      position: absolute;
+      padding-top: 130px;
+      margin-left: 35%;
+
+  }
 }
-}
+
 body{
     font-family: "Roboto";
     background: #d9d6c8;
@@ -108,75 +179,17 @@ body>header>h1, body>header>h2{
 
 }
 
-body>header>h1{
-    font-size: 40px;
-  padding-top: 70px;
-  margin-right: 45%;
-
-}
-body>header>h2{
-    font-size: 30px;
-    font-style: italic;
-}
 
 
-@media all and (max-width:360px){
-  .art01{
-    width: 45%;
-    margin: .5em;
-    display:inline-block;
-  }
-    #pedirR{
-    width: 45%;
-    margin: .5em;
-    display:inline-block;
-  }
-}
 
-@media all and (min-width:361px){
-  .art01{
-    width: 45%;
-    margin: .5em;
-    display:inline-block;
-  }
 
-  #pedirR{
-    width: 45%;
-    margin: .5em;
-    display:inline-block;
-  }
 
   body>nav>ul>li>a>span:nth-of-type(2){
       display:none;
    }
-}
 
-@media all and (min-width:676px){
-  .art01{
-    width: 45%;
-    margin: .5em;
-    display:inline-block;
-  }
 
-  #pedirR{
-    width: 45%;
-    margin: .5em;
-    display:inline-block;
-  }
 
-  body>nav>ul>li>a>span:nth-of-type(2){
-      display:inline-block;
-   }
-}
-
-@media all and (min-width:700px){/*hacer que se quede simetrico al reducir tamaño*/
-  .art01{
-    width: 30%;
-  }
-  #pedirR{
-    width: 30%;
-  }
-}
 body>footer{
   background-color: antiquewhite;
   padding: .5em;
