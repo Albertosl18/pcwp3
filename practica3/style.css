@@ -8,16 +8,14 @@ canvas{
 }
 
 #logo{
-  width: 60px;
-  height: 60px;
-  float: left;
+  width: 70px;
+  height: 70px;
+  float:left;
+  margin-left: 40%;
+  margin-top: 3%;
 }
 
-#imgen:hover{
-  visibility:visible;
-  transform: scale(1.1);
 
-}
 @media all and (max-width:360px){
 #imagenesS{
   display: inline-block;
@@ -112,7 +110,9 @@ body>header>h1, body>header>h2{
 
 body>header>h1{
     font-size: 40px;
-    padding-top: 70px;
+  padding-top: 70px;
+  margin-right: 45%;
+
 }
 body>header>h2{
     font-size: 30px;
